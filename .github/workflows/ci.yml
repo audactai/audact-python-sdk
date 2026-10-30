@@ -1,0 +1,43 @@
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request: {}
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12", "3.13", "3.14"]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0  # v7.1.0
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+          cache-dependency-path: pyproject.toml
+      - name: Install
+        run: pip install -e '.[dev]' build 'twine>=6.1'
+      - name: Test
+        run: |
+          python -m pytest -v -rs -p no:cacheprovider > "$RUNNER_TEMP/t.log" 2>&1 || { cat "$RUNNER_TEMP/t.log"; exit 1; }
+      - name: Fail on skipped tests
+        run: |
+          if [ "$(grep -cE '[0-9]+ skipped' "$RUNNER_TEMP/t.log")" -gt 0 ]; then
+            grep SKIPPED "$RUNNER_TEMP/t.log" || true
+            echo "tests were skipped" >&2
+            exit 1
+          fi
+      - name: Type check
+        run: mypy audact
+      - name: Lint
+        run: ruff check .
+      - name: Build
+        run: python -m build
+      - name: Check metadata
+        run: twine check --strict dist/*
+      - name: Check distribution contents
+        run: python scripts/check_dist.py dist

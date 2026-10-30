@@ -1,0 +1,40 @@
+{
+  "country": "DE",
+  "version": "1.0.0",
+  "use_cases": [
+    {
+      "id": "outbound_sales",
+      "description": "Outbound sales calls",
+      "default_verdict": "BLOCK",
+      "conditions": [
+        {
+          "field": "direction",
+          "operator": "eq",
+          "value": "inbound"
+        },
+        {
+          "field": "consent",
+          "operator": "eq",
+          "value": true
+        },
+        {
+          "field": "attempts",
+          "operator": "lte",
+          "value": 3
+        },
+        {
+          "field": "region",
+          "operator": "in",
+          "value": [
+            "a",
+            "b"
+          ]
+        }
+      ],
+      "block_reasons": [
+        "no_consent"
+      ]
+    }
+  ],
+  "updated_at": "2026-06-01T00:00:00Z"
+}

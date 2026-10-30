@@ -1,0 +1,18 @@
+{
+  "violations": [
+    {
+      "event_id": "99999999-9999-4999-8999-999999999999",
+      "call_id": "22222222-2222-4222-8222-222222222222",
+      "tenant_id": "11111111-1111-4111-8111-111111111111",
+      "sequence": 3,
+      "event_type": "CHECK_RESULT",
+      "timestamp": "2026-06-03T12:00:00Z",
+      "data": {
+        "result": "BLOCK",
+        "rule_id": "profanity_v2"
+      },
+      "hash": "3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855e"
+    }
+  ],
+  "has_more": false
+}

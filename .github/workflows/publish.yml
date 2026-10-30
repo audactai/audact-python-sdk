@@ -1,0 +1,114 @@
+name: Publish to PyPI
+on:
+  push:
+    tags: ["v*"]
+permissions:
+  contents: read
+concurrency:
+  group: pypi-publish
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0  # v7.1.0
+        with:
+          python-version: "3.12"
+      - name: Tag matches __version__
+        run: |
+          V=$(python -c 'import re,pathlib;print(re.search(r"^__version__ = \"(.+)\"$", pathlib.Path("audact/__init__.py").read_text(), re.M)[1])')
+          test "v$V" = "$GITHUB_REF_NAME"
+      - name: Install
+        run: pip install -e '.[dev]' build 'twine>=6.1'
+      - name: Test
+        run: |
+          python -m pytest -v -rs -p no:cacheprovider > "$RUNNER_TEMP/t.log" 2>&1 || { cat "$RUNNER_TEMP/t.log"; exit 1; }
+      - name: Fail on skipped tests
+        run: |
+          if [ "$(grep -cE '[0-9]+ skipped' "$RUNNER_TEMP/t.log")" -gt 0 ]; then
+            grep SKIPPED "$RUNNER_TEMP/t.log" || true
+            echo "tests were skipped" >&2
+            exit 1
+          fi
+      - name: Type check
+        run: mypy audact
+      - name: Lint
+        run: ruff check .
+      - name: Build
+        run: python -m build
+      - name: Check metadata
+        run: twine check --strict dist/*
+      - name: Check distribution contents
+        run: python scripts/check_dist.py dist
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9  # v7.0.2
+        with:
+          name: dist
+          path: dist/
+  testpypi:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: testpypi
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131  # v7.0.0
+        with:
+          name: dist
+          path: dist/
+      - uses: pypa/gh-action-pypi-publish@7245906fb61fa33a13554f9d5fb856fe61758086  # v1.14.3
+        with:
+          repository-url: https://test.pypi.org/legacy/
+          skip-existing: true
+  verify-testpypi:
+    needs: testpypi
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0  # v7.1.0
+        with:
+          python-version: "3.11"
+      - name: Install from TestPyPI and smoke test
+        working-directory: ${{ runner.temp }}
+        run: |
+          V="${GITHUB_REF_NAME#v}"
+          python -m venv v
+          ok=0
+          for i in 1 2 3 4 5; do
+            if v/bin/pip install --report r.json --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple/ "audact==$V"; then
+              ok=1
+              break
+            fi
+            echo "attempt $i failed; waiting for index propagation" >&2
+            sleep 15
+          done
+          test "$ok" = 1
+          python -c '
+          import json
+          r = json.load(open("r.json"))
+          hits = [i for i in r["install"] if i["metadata"]["name"] == "audact"]
+          assert len(hits) == 1, hits
+          url = hits[0]["download_info"]["url"]
+          assert url.startswith("https://test-files.pythonhosted.org/"), url
+          '
+          V="$V" v/bin/python -I -c '
+          import importlib.resources, os
+          import audact
+          from audact import AudactClient
+          assert audact.__version__ == os.environ["V"], audact.__version__
+          AudactClient(api_key="x")
+          assert importlib.resources.files("audact").joinpath("py.typed").is_file()
+          '
+  pypi:
+    needs: verify-testpypi
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131  # v7.0.0
+        with:
+          name: dist
+          path: dist/
+      - uses: pypa/gh-action-pypi-publish@7245906fb61fa33a13554f9d5fb856fe61758086  # v1.14.3
+        with:
+          skip-existing: false

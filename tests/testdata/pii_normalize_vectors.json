@@ -1,0 +1,142 @@
+[
+  {
+    "type": "name",
+    "input": "  Senad   UKA ",
+    "normalized": "senad uka",
+    "client_hash": "28767ee198575afb7470a5f371cdc0ebe2edc99f285a22519b429c52ceaa024b"
+  },
+  {
+    "type": "name",
+    "input": "Senad Uka",
+    "normalized": "senad uka",
+    "client_hash": "28767ee198575afb7470a5f371cdc0ebe2edc99f285a22519b429c52ceaa024b"
+  },
+  {
+    "type": "name",
+    "input": "Café Bar",
+    "normalized": "café bar",
+    "client_hash": "77c27f218ef2e6654d9bff5b9464a291f8acf8b288423ec55755d5d740df190b"
+  },
+  {
+    "type": "name",
+    "input": "Émile",
+    "normalized": "émile",
+    "client_hash": "a56b363ca23dd9db9bd117840f28aab076b474f8cbea85416f715281dc809d56"
+  },
+  {
+    "type": "name",
+    "input": "Émile",
+    "normalized": "émile",
+    "client_hash": "a56b363ca23dd9db9bd117840f28aab076b474f8cbea85416f715281dc809d56"
+  },
+  {
+    "type": "name",
+    "input": "Müller",
+    "normalized": "müller",
+    "client_hash": "2dbd218072117713f2d5996a726a9b216ed791ffd0783b6ba4ab6d61b8333192"
+  },
+  {
+    "type": "name",
+    "input": "Muller",
+    "normalized": "muller",
+    "client_hash": "a8b1fc83cb92ad90b731937cf76116ef6c1aba436f8d0d0ec673e8d34022aca8"
+  },
+  {
+    "type": "name",
+    "input": "Jan\tvan Dijk",
+    "normalized": "jan van dijk",
+    "client_hash": "5f1b70c48fc8654f44f8870d8ece65a2a3bb28226bafd890e09be7107c5d22d6"
+  },
+  {
+    "type": "email",
+    "input": "  Foo.Bar@Example.COM ",
+    "normalized": "foo.bar@example.com",
+    "client_hash": "00a9fee7604744049b5f777d65021e214480af944b16c1580893c5c6eed2d45a"
+  },
+  {
+    "type": "email",
+    "input": "user@EXAMPLE.nl",
+    "normalized": "user@example.nl",
+    "client_hash": "62d6daf228c0243dd8326851640553a85f0b9e04bff81343b7671af61a3ecdb6"
+  },
+  {
+    "type": "email",
+    "input": "Jörg@Example.com",
+    "normalized": "jörg@example.com",
+    "client_hash": "96949592d14b07f436cc55b814d947b0f00c805ee8c4c80fb8e1a1eff9a0fd12"
+  },
+  {
+    "type": "name",
+    "input": "ΟΔΥΣΣΕΥΣ",
+    "normalized": "οδυσσευσ",
+    "client_hash": "2948cc83118a5f6add05093738b8e97d2357a5e872c29992a8ec50558a3afac3"
+  },
+  {
+    "type": "name",
+    "input": "İstanbul",
+    "normalized": "istanbul",
+    "client_hash": "751c59fe1fa734e61bec7c142171bfcbca97ff8223171b4bd63d8165a67a4d74"
+  },
+  {
+    "type": "name",
+    "input": "Straẞe",
+    "normalized": "straße",
+    "client_hash": "787f4770613d3824cbc89b6d5da90a123e41b07b90b45ea3738c216b14616140"
+  },
+  {
+    "type": "email",
+    "input": "ΟΔΥΣΣΕΥΣ@Example.gr",
+    "normalized": "οδυσσευσ@example.gr",
+    "client_hash": "ff9c30449e082cb678038c7fc99bcb41cd1747a020b63f2ff23d26c8661b430f"
+  },
+  {
+    "type": "email",
+    "input": "İlker@Example.com.tr",
+    "normalized": "ilker@example.com.tr",
+    "client_hash": "a89ad364f717ff6da94d76389780551e1a3e49e63f56235183c50525ed1a74e2"
+  },
+  {
+    "type": "phone",
+    "input": "+31 6 1234 5678",
+    "normalized": "+31612345678",
+    "client_hash": "fab7be8a931d1088a82f6acf9e468aaf6a3accc07d5112ee5d6fca93281e1583"
+  },
+  {
+    "type": "phone",
+    "input": "+31-6-1234-5678",
+    "normalized": "+31612345678",
+    "client_hash": "fab7be8a931d1088a82f6acf9e468aaf6a3accc07d5112ee5d6fca93281e1583"
+  },
+  {
+    "type": "phone",
+    "input": "+44 (20) 7946.0958",
+    "normalized": "+442079460958",
+    "client_hash": "f0bf0228144d9fe2bdf1da2d8ca698f17bf1410ee688b075c27062e47b6f0b6d"
+  },
+  {
+    "type": "phone",
+    "input": "+1 (415) 555-2671",
+    "normalized": "+14155552671",
+    "client_hash": "cb6880e416769253645cb9c6b8989154bf66a56a77fc14c81fb1019663cbb928"
+  },
+  {
+    "type": "phone",
+    "input": "0612345678",
+    "error": true
+  },
+  {
+    "type": "phone",
+    "input": "+0612345678",
+    "error": true
+  },
+  {
+    "type": "phone",
+    "input": "+31 6 12",
+    "error": true
+  },
+  {
+    "type": "name",
+    "input": "   ",
+    "error": true
+  }
+]

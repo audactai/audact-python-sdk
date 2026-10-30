@@ -1,0 +1,33 @@
+{
+  "calls": [
+    {
+      "call_id": "22222222-2222-4222-8222-222222222222",
+      "tenant_id": "11111111-1111-4111-8111-111111111111",
+      "direction": "inbound",
+      "channel": "webrtc",
+      "status": "completed",
+      "started_at": "2026-06-03T12:00:00Z",
+      "ended_at": "2026-06-03T12:05:32Z",
+      "metadata": {},
+      "created_at": "2026-06-03T12:00:00Z"
+    },
+    {
+      "call_id": "33333333-3333-4333-8333-333333333333",
+      "tenant_id": "11111111-1111-4111-8111-111111111111",
+      "direction": "outbound",
+      "channel": "webrtc",
+      "status": "active",
+      "started_at": "2026-06-03T12:00:00Z",
+      "ended_at": "2026-06-03T12:05:32Z",
+      "metadata": {
+        "country": "DE",
+        "campaign": {
+          "id": 7
+        }
+      },
+      "created_at": "2026-06-03T12:00:00Z"
+    }
+  ],
+  "next_cursor": "eyJzIjoiMjAyNi0wNi0wM1QxMjowMDowMFoifQ",
+  "has_more": true
+}
